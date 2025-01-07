@@ -32,9 +32,9 @@ def main():
             alistUrl = alistUrl[:-1]
         jsonDict["alistUrl"] = alistUrl
         mountPath = input("请输入Alist挂载路径：(例子：/我的文件)\n=>")
+        jsonDict["mountPath"] = mountPath
         if mountPath[0] == "/":
             mountPath = mountPath[1:]
-        jsonDict["mountPath"] = mountPath
         print("Alist挂载路径已保存,请继续")
         paths = convertTreeToPaths(txtPath)[:10]
         convertTreeToPaths
