@@ -58,19 +58,22 @@ def main():
             if input("是否确认？(Y/N)\n=>") == "Y" or "y":
                 break
         jsonDict["excludeOption"] = int(excludeOption)
-        dbPath = input("请输入数据库文件路径：\n=>")
+        while True:
+            dbPath = input("请输入数据库文件路径：\n=>")
+            if dbPath.endswith(".db") and os.isfile(dbPath):
+                break
         jsonDict["dataDbPath"] = dbPath
         print("请指定数据库操作类型")
         print("1.插入数据库")
         print("2.替换数据库")
-        dbOperation = input("请选择数据库操作类型：\n=>")
+        dbOperation = input("请选择数据库操作类型：(1/2)\n=>")
         if dbOperation == "1":
             dbOperation = "add"
         elif dbOperation == "2":
             dbOperation = "replace"
         jsonDict["dbOperation"] = dbOperation
-        print("config.json已生成")
         json.dump(jsonDict, f, indent=4)
+        print("config.json已生成")
 
 
 if __name__ == "__main__":
