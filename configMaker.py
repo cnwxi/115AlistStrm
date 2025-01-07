@@ -16,7 +16,7 @@ def main():
     }
     if not os.path.exists("./data"):
         os.makedirs("./data", exist_ok=True)
-    with open("./data/config1.json", "w", encoding="utf-8") as f:
+    with open("./data/config.json", "w", encoding="utf-8") as f:
         print("这里是配置文件生成器，使用前请先准备好目录树文件")
         txtPath = None
         while txtPath == None:
