@@ -9,7 +9,7 @@ import json
 import shutil
 import os
 from urllib.parse import quote
-
+import requests
 
 builtinAudioExtensions = [
     "mp3",
@@ -40,8 +40,12 @@ builtinVideoExtensions = [
     "mpg",
     "mpeg",
 ]
-builtinImageExtensions = ["jpg", "jpeg", "png", "gif", "bmp", "tiff", "svg", "heic"]
-builtinProgramExtensions = ["apk", "exe", "msi", "dmg", "deb", "rpm", "appimage"]
+builtinImageExtensions = [
+    "jpg", "jpeg", "png", "gif", "bmp", "tiff", "svg", "heic"
+]
+builtinProgramExtensions = [
+    "apk", "exe", "msi", "dmg", "deb", "rpm", "appimage"
+]
 builtinZipExtensions = ["zip", "7z", "rar"]
 builtinOtherExtensions = [
     "iso",
@@ -67,14 +71,9 @@ builtinOtherExtensions = [
 
 
 def getAllExtensions():
-    allExtensions = (
-        builtinAudioExtensions
-        + builtinVideoExtensions
-        + builtinImageExtensions
-        + builtinProgramExtensions
-        + builtinZipExtensions
-        + builtinOtherExtensions
-    )
+    allExtensions = (builtinAudioExtensions + builtinVideoExtensions +
+                     builtinImageExtensions + builtinProgramExtensions +
+                     builtinZipExtensions + builtinOtherExtensions)
     return allExtensions
 
 
@@ -100,3 +99,31 @@ def removeFile(folder_path):
         print(f"已删除文件夹: {folder_path}")
     else:
         print(f"文件夹不存在: {folder_path}")
+
+
+def getTreeTxt(filepath):
+    # 判断是URL还是本地路径
+    if os.path.isfile(filepath):
+        return filepath
+    elif filepath.startswith("http"):
+        response = requests.get(filepath)
+        response.encoding = "utf-16"
+        txtSaveDIR = "./data"
+        if not os.path.exists(txtSaveDIR):
+            os.makedirs(txtSaveDIR, exist_ok=True)
+        txtSavePath = os.path.join(txtSaveDIR, "dirTree.txt")
+        with open(txtSavePath, "w", encoding="utf-16") as saveFile:
+            saveFile.write(response.text)
+        return txtSavePath
+    else:
+        print("目录树文件路径错误")
+        return None
+
+
+def stopAlist():
+    #linux
+    os.system("systemctl stop alist")
+
+
+def startAlist():
+    os.system("systemctl start alist")

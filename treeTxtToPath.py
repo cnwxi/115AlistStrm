@@ -8,22 +8,7 @@
 
 import os
 import requests
-from tool import readJson, getAllExtensions, removeFile
-
-def getTreeTxt(filepath):
-    # 判断是URL还是本地路径
-    if os.path.isfile(filepath):
-        return filepath
-    else:
-        response = requests.get(filepath)
-        response.encoding = "utf-16"
-        txtSaveDIR = "./data"
-        if not os.path.exists(txtSaveDIR):
-            os.makedirs(txtSaveDIR, exist_ok=True)
-        txtSavePath = os.path.join(txtSaveDIR, "dirTree.txt")
-        with open(txtSavePath, "w", encoding="utf-16") as saveFile:
-            saveFile.write(response.text)
-        return txtSavePath
+from tool import readJson, getAllExtensions, removeFile, getTreeTxt
 
 
 def convertTreeToPaths(filePath):
@@ -50,7 +35,6 @@ def convertTreeToPaths(filePath):
 
 def main():
     config = readJson()
-    removeFile(config.get("strmSaveDir"))
     txtFile = getTreeTxt(config.get("directoryTreeFile"))
     paths = convertTreeToPaths(txtFile)
     with open("./data/paths.txt", "w", encoding="utf-16") as f:
