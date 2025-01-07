@@ -40,7 +40,6 @@ def main():
     with open("./data/paths.txt", "w", encoding="utf-16") as f:
         for path in paths:
             f.write(path + "\n")
-            print(path)
 
 
 if __name__ == "__main__":
