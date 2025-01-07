@@ -116,6 +116,9 @@ def addDb(tempDbPath):
     ''')
     conn.commit()
     cursor.execute("DETACH DATABASE tempDb")
+    cursor.execute('''
+    CREATE INDEX IF NOT EXISTS idx_x_search_nodes_parent ON x_search_nodes (parent);
+    ''')
     conn.commit()
     conn.close()
 
@@ -132,6 +135,10 @@ def replaceDb(tempDbPath):
     )
     conn.commit()
     cursor.execute("DETACH DATABASE tempDb")
+    cursor.execute('''
+    CREATE INDEX IF NOT EXISTS idx_x_search_nodes_parent ON x_search_nodes (parent);
+    ''')
+    conn.commit()
     conn.commit()
     conn.close()
 
@@ -141,7 +148,7 @@ def main():
     print("关闭Alist")
     stopAlist()
     backupDb()
-    print(list_tables(config.get("dataDbPath")))
+    # print(list_tables(config.get("dataDbPath")))
     tmpdb = preTempDB()
     if config.get("dbOperation") == "add":
         addDb(tmpdb)
