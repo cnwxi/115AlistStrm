@@ -138,6 +138,7 @@ def replaceDb(tempDbPath):
 
 def main():
     config = readJson()
+    print("关闭Alist")
     stopAlist()
     backupDb()
     print(list_tables(config.get("dataDbPath")))
@@ -147,6 +148,7 @@ def main():
     else:
         replaceDb(tmpdb)
     removeFile("./data/tmp")
+    print("启动Alist")
     startAlist()
 
 
