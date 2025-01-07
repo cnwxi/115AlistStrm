@@ -60,7 +60,7 @@ def main():
         jsonDict["excludeOption"] = int(excludeOption)
         while True:
             dbPath = input("请输入数据库文件路径：\n=>")
-            if dbPath.endswith(".db") and os.isfile(dbPath):
+            if dbPath.endswith(".db") and os.path.isfile(dbPath):
                 break
         jsonDict["dataDbPath"] = dbPath
         print("请指定数据库操作类型")
