@@ -72,7 +72,7 @@ def main():
         elif dbOperation == "2":
             dbOperation = "replace"
         jsonDict["dbOperation"] = dbOperation
-        json.dump(jsonDict, f, indent=4)
+        json.dump(jsonDict, f, indent=4, ensure_ascii=False)
         print("config.json已生成")
 
 
