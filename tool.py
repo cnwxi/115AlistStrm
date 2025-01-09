@@ -90,7 +90,7 @@ def getAlistMountPath(config):
         alist_url = alist_url[:-1]
     if mount_path[0] == "/":
         mount_path = mount_path[1:]
-    return f"{alist_url}/{quote(mount_path)}"
+    return f"{alist_url}/d/{quote(mount_path)}"
 
 
 def removeFile(folder_path):
