@@ -12,6 +12,14 @@ from urllib.parse import quote
 allExtensions = getAllExtensions()
 
 
+def recursive_chown(strmSaveDir, uid, gid):
+    for root, dirs, files in os.walk(strmSaveDir):
+        os.chown(root, uid, gid)
+        for file in files:
+            file_path = os.path.join(root, file)
+            os.chown(file_path, uid, gid)
+
+
 def pathsToStrm():
     config = readJson()
     alist_base_url = getAlistMountPath(config)
@@ -19,7 +27,7 @@ def pathsToStrm():
     strmSaveDir = config.get("strmSaveDir")
     removeFile(strmSaveDir)
     if not os.path.exists(strmSaveDir):
-        os.makedirs(strmSaveDir, exist_ok=True)
+        os.makedirs(strmSaveDir, exist_ok=True)  # root组
 
     with open("./data/paths.txt", "r", encoding="utf-16") as f:
         for line in f:
@@ -39,6 +47,8 @@ def pathsToStrm():
                 os.path.join(strmSaveDir, addUrl + ".strm"))
             with open(writeDir, "w", encoding="utf-16") as writeFile:
                 writeFile.write(fullUrl)
+    # 处理权限
+    recursive_chown(strmSaveDir, 998, 998)
 
 
 if __name__ == "__main__":
