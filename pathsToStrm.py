@@ -45,7 +45,7 @@ def pathsToStrm():
             fullUrl = f"{alist_base_url}/{quote(addUrl)}"
             writeDir = os.path.normpath(
                 os.path.join(strmSaveDir, addUrl + ".strm"))
-            with open(writeDir, "w", encoding="utf-16") as writeFile:
+            with open(writeDir, "w", encoding="utf-8") as writeFile:
                 writeFile.write(fullUrl)
     # 处理权限
     recursive_chown(strmSaveDir, 998, 998)
