@@ -12,7 +12,8 @@ def main():
         "mountPath": " ",
         "excludeOption": 0,
         "dataDbPath": " ",
-        "dbOperation": " "
+        "dbOperation": " ",
+        "lastPathsTxtHash": " "
     }
     if not os.path.exists("./data"):
         os.makedirs("./data", exist_ok=True)

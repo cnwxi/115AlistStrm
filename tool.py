@@ -10,6 +10,7 @@ import shutil
 import os
 from urllib.parse import quote
 import requests
+import hashlib
 
 builtinAudioExtensions = [
     "mp3",
@@ -118,6 +119,11 @@ def getTreeTxt(filepath):
     else:
         print("目录树文件路径错误")
         return None
+
+
+def getTxtHash(filepath):
+    with open(filepath, "rb") as f:
+        return hashlib.md5(f.read()).hexdigest()
 
 
 def stopAlist():

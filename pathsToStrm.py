@@ -5,9 +5,10 @@
 @说明        :生成strm文件
 @时间        :2025/01/06 21:52:02
 '''
-from tool import readJson, getAlistMountPath, getAllExtensions, removeFile, builtinVideoExtensions
+from tool import readJson, getAlistMountPath, getAllExtensions, removeFile, builtinVideoExtensions, getTxtHash
 import os
 from urllib.parse import quote
+import json
 
 allExtensions = getAllExtensions()
 
@@ -28,7 +29,15 @@ def pathsToStrm():
     removeFile(strmSaveDir)
     if not os.path.exists(strmSaveDir):
         os.makedirs(strmSaveDir, exist_ok=True)  # root组
-
+    lastPathsTxtHash = config.get("lastPathsTxtHash")
+    nowPathsTxtHash = getTxtHash("./data/paths.txt")
+    if lastPathsTxtHash == nowPathsTxtHash:
+        print("文件未发生变化，不需要重新生成strm文件")
+        return
+    else:
+        config["lastPathsTxtHash"] = nowPathsTxtHash
+        with open("./data/config.json", "w", encoding="utf-8") as f:
+            f.write(json.dumps(config, indent=4))
     with open("./data/paths.txt", "r", encoding="utf-16") as f:
         for line in f:
             line = line.strip()

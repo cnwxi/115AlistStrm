@@ -7,9 +7,10 @@
 '''
 import sqlite3
 import os
-from tool import readJson, getAlistMountPath, removeFile, stopAlist, startAlist
+from tool import readJson, getAlistMountPath, removeFile, stopAlist, startAlist, getTxtHash
 import shutil
 import tempfile
+import json
 
 
 def backupDb():
@@ -20,21 +21,6 @@ def backupDb():
         os.remove(backupPath)
     shutil.copy(dbPath, backupPath)
     print(f"备份数据库 {backupPath}")
-
-
-def pathsToDb():
-    config = readJson()
-    alist_base_url = getAlistMountPath(config)
-    excludeOption = config.get("excludeOption")
-    dbPath = config.get("dataDbPath")
-    backupDb(dbPath)
-
-    with open("./data/paths.txt", "r", encoding="utf-16") as f:
-        for line in f:
-            line = line.strip()
-            addUrl = '/'.join((line.split("/")[excludeOption:]))
-            saveDir = '/'.join((line.split("/")[excludeOption:-1]))
-            fullUrl = f"{alist_base_url}/{addUrl}"
 
 
 def list_tables(db_path):
@@ -145,6 +131,15 @@ def replaceDb(tempDbPath):
 
 def main():
     config = readJson()
+    lastPathsTxtHash = config.get("lastPathsTxtHash")
+    nowPathsTxtHash = getTxtHash("./data/paths.txt")
+    if lastPathsTxtHash == nowPathsTxtHash:
+        print("文件未发生变化，不需要重新处理数据库索引")
+        return
+    else:
+        config["lastPathsTxtHash"] = nowPathsTxtHash
+        with open("./data/config.json", "w", encoding="utf-8") as f:
+            f.write(json.dumps(config, indent=4))
     print("关闭Alist")
     stopAlist()
     backupDb()
