@@ -26,7 +26,6 @@ def pathsToStrm():
     alist_base_url = getAlistMountPath(config)
     excludeOption = config.get("excludeOption")
     strmSaveDir = config.get("strmSaveDir")
-    removeFile(strmSaveDir)
     if not os.path.exists(strmSaveDir):
         os.makedirs(strmSaveDir, exist_ok=True)  # root组
     lastPathsTxtHash = config.get("lastPathsTxtHash")
@@ -38,6 +37,7 @@ def pathsToStrm():
         config["lastPathsTxtHash"] = nowPathsTxtHash
         with open("./data/config.json", "w", encoding="utf-8") as f:
             f.write(json.dumps(config, indent=4))
+    removeFile(strmSaveDir)
     with open("./data/paths.txt", "r", encoding="utf-16") as f:
         for line in f:
             line = line.strip()
