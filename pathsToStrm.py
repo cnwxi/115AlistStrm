@@ -5,7 +5,7 @@
 @说明        :生成strm文件
 @时间        :2025/01/06 21:52:02
 '''
-from tool import readJson, getAlistMountPath, getAllExtensions, removeFile
+from tool import readJson, getAlistMountPath, getAllExtensions, removeFile, builtinVideoExtensions
 import os
 from urllib.parse import quote
 
@@ -33,7 +33,7 @@ def pathsToStrm():
         for line in f:
             line = line.strip()
             line, extention = line.split("\t")
-            if extention == "dir":
+            if extention == "dir" or extention not in builtinVideoExtensions:
                 continue
             if len(line.split("/")) < excludeOption:
                 continue
