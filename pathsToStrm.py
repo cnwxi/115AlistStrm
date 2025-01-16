@@ -59,6 +59,7 @@ def pathsToStrm():
                 writeFile.write(fullUrl)
     # 处理权限
     recursive_chown(strmSaveDir, 998, 998)
+    print("strm文件生成完毕")
 
 
 if __name__ == "__main__":
