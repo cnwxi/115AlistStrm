@@ -5,7 +5,7 @@
 @说明        :生成strm文件
 @时间        :2025/01/06 21:52:02
 '''
-from tool import readJson, getAlistMountPath, getAllExtensions, removeFile, builtinVideoExtensions, getTxtHash
+from tool import readJson, getAlistMountPath, getAllExtensions, removeFile, getVideoExtensions, getTxtHash
 import os
 from urllib.parse import quote
 import json
@@ -38,11 +38,12 @@ def pathsToStrm():
         with open("./data/config.json", "w", encoding="utf-8") as f:
             f.write(json.dumps(config, indent=4))
     removeFile(strmSaveDir)
+    someExtensions = getVideoExtensions()
     with open("./data/paths.txt", "r", encoding="utf-16") as f:
         for line in f:
             line = line.strip()
             line, extention = line.split("\t")
-            if extention == "dir" or extention not in builtinVideoExtensions:
+            if extention == "dir" or extention not in someExtensions:
                 continue
             if len(line.split("/")) < excludeOption:
                 continue

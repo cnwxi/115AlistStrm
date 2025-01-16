@@ -78,6 +78,12 @@ def getAllExtensions():
     return allExtensions
 
 
+def getVideoExtensions():
+    # 视频+字幕相关后缀
+    returnExtensions = (builtinVideoExtensions + builtinOtherExtensions)
+    return returnExtensions
+
+
 def readJson():
     filePath = "./data/config.json"
     with open(filePath, "r", encoding="utf-8") as file:
